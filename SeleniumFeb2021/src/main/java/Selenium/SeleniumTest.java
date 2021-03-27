@@ -9,13 +9,17 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 
 import comun.LeerProperties;
 
 public class SeleniumTest {
-	public static Logger log = Logger.getLogger(SeleniumTest.class);
-	static LeerProperties prop = new LeerProperties();
-
+public static Logger log = Logger.getLogger(SeleniumTest.class);
+static LeerProperties prop = new LeerProperties();
+static WebDriver driver;
+	
+	
 	public static void main(String[] arg) {
 
 		String rutaChrome = System.getProperty("user.dir") + "\\chromeDriver\\chromeDriver.exe";
@@ -60,7 +64,43 @@ public class SeleniumTest {
 			System.out.println("El Login no fue Exitoso");
 
 		}
+		
+	}//End Main
 
+	public static WebDriver startDriver(String url) {
+		WebDriver driver = new ChromeDriver();
+		prop.getSystemProperties();
+		
+		String browser = System.getProperty("BROWSER");
+		
+		switch (browser) {
+		
+		case "chrome":
+			ChromeOptions option = new ChromeOptions();
+			option.addArguments("--Start-maximized");
+			option.addArguments("--Incognito");
+			driver = new ChromeDriver(option);
+			driver.get(url);
+			break;
+			
+		case "firefox":
+			FirefoxOptions foption = new FirefoxOptions();
+			foption.addArguments("--Start-maximized");
+			foption.addArguments("--Incognito");
+		    driver = new FirefoxDriver(foption);
+		    driver.get(url);
+		    
+		    
+		    
+		}
+	
+		
+		
+		
+		
+
+		return driver;
 	}
-
-}
+	
+	
+}//End Class
