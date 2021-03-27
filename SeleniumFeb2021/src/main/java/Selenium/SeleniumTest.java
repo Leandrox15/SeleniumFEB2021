@@ -9,6 +9,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 
@@ -18,12 +20,12 @@ public class SeleniumTest {
 public static Logger log = Logger.getLogger(SeleniumTest.class);
 static LeerProperties prop = new LeerProperties();
 static WebDriver driver;
-	
+static String path = System.getProperty("user.dir");
 	
 	public static void main(String[] arg) {
 
-		String rutaChrome = System.getProperty("user.dir") + "\\chromeDriver\\chromeDriver.exe";
-		System.setProperty("webdriver.chrome.driver", rutaChrome);
+		//String path = System.getProperty("user.dir") + "\\chromeDriver\\chromeDriver.exe";
+		System.setProperty("webdriver.chrome.driver", path);
 
 		// Options para abrir
 		ChromeOptions option = new ChromeOptions();
@@ -68,7 +70,7 @@ static WebDriver driver;
 	}//End Main
 
 	public static WebDriver startDriver(String url) {
-		WebDriver driver = new ChromeDriver();
+//		WebDriver driver = new ChromeDriver();
 		prop.getSystemProperties();
 		
 		String browser = System.getProperty("BROWSER");
@@ -76,6 +78,7 @@ static WebDriver driver;
 		switch (browser) {
 		
 		case "chrome":
+			System.setProperty("webdriver.chrome.driver", path + "\\chromeDriver\\chromeDriver.exe");
 			ChromeOptions option = new ChromeOptions();
 			option.addArguments("--Start-maximized");
 			option.addArguments("--Incognito");
@@ -84,12 +87,24 @@ static WebDriver driver;
 			break;
 			
 		case "firefox":
+			System.setProperty("webdriver.gecko.driver", path + "\\geckoDriver\\geckodriver.exe");
 			FirefoxOptions foption = new FirefoxOptions();
 			foption.addArguments("--Start-maximized");
 			foption.addArguments("--Incognito");
 		    driver = new FirefoxDriver(foption);
 		    driver.get(url);
+		    break;
 		    
+		case "edge":
+			System.setProperty("webdriver.msedge.driver", path + "\\edgedriver\\msedgedriver.exe");
+			EdgeOptions eoption = new EdgeOptions();
+			eoption.addArguments("--Start-maximized");
+			eoption.addArguments("--Incognito");
+		    driver = new EdgeDriver(eoption);
+		    driver.get(url);
+		    break;   
+		
+		    //driver.manage().timeouts().implicitlyWait(20, TimeUnit.MILLISECONDS);
 		    
 		    
 		}
